@@ -40,12 +40,15 @@ Please feel free to adjust the scripts to backup all containers
 
 ### Update images
 In a normal update images containers process we don't have to carry about volumes of the containers, we have to pull the
-last images code base version, 
-You can perform this command to update core drupal image code : # make update-drupal
+last images code base version.
+
+You can perform this command to update core drupal image code : `make update-drupal`
+
 The new image may update the Drupal core Version but also the Used php amd apache as it maintained by [Drupal](https://hub.docker.com/_/drupal)
+
 In the [Obiba docker Drupal](https://hub.docker.com/repository/docker/obiba/docker-obiba-drupal) there is some .sh script 
 helper to update the Obiba Drupal Modules, so inside the Drupal container you can execute this command to update to last 
-Obiba Drupal modules version : # make update-obiba 
+Obiba Drupal modules version : `make update-obiba`
 
 Basic steps: 
 - Update Drupal images :  `make update-drupal`
