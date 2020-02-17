@@ -30,7 +30,8 @@ The mysql container should exclusively be used by Drupal installation and store 
 To update containers code base please follow these steps: 
 
 ### Backup
-Backup Drupal containers + images using this command : # make backup-drupal
+Backup Drupal containers + images using this command : `make backup-drupal`
+
 This command backup only the Drupal instance : 
 - Drupal images + volumes
 - Mysql images + volumes
