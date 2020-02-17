@@ -1,0 +1,129 @@
+version: "3.7"
+services:
+  drupal:
+    image: obiba/docker-obiba-drupal:latest
+    ports:
+    - "8888:80"
+    links:
+    - mysql
+    - mica
+    - agate
+    environment:
+    - MYSQL_DATABASE=drupal_mica
+    - MYSQL_ROOT_PASSWORD=password
+    - DRUPAL_ADMINISTRATOR_PASSWORD=password
+    - MICA_ANONYMOUS_PASSWORD=password
+    - MYSQL_PORT_3306_TCP_ADDR=172.16.0.6
+    - AGATE_PORT_8444_TCP_ADDR=172.16.0.4
+    - MICA_PORT_8445_TCP_ADDR=172.16.0.2
+    volumes:
+    - drupal_sites:/var/www/html/sites
+    networks:
+      nightlynw:
+        ipv4_address: 172.16.0.8
+  mica:
+    image: obiba/mica:snapshot
+    ports:
+    - "8845:8445"
+    - "8882:8082"
+    volumes:
+    - /data/containers/mica_srv:/srv
+    links:
+    - mongo
+    - opal
+    - agate
+    environment:
+    - MICA_ADMINISTRATOR_PASSWORD=password
+    - MICA_ANONYMOUS_PASSWORD=password
+    - OPAL_PORT_8443_TCP_ADDR=172.16.0.3
+    - OPAL_PORT_8443_TCP_PORT=8443
+    - AGATE_PORT_8444_TCP_ADDR=172.16.0.4
+    - AGATE_PORT_8444_TCP_PORT=8444
+    - MONGO_PORT_27017_TCP_ADDR=172.16.0.5
+    - MONGO_PORT_27017_TCP_PORT=27017
+    networks:
+      nightlynw:
+        ipv4_address: 172.16.0.2
+  opal:
+    image: obiba/opal:snapshot
+    ports:
+    - "8843:8443"
+    - "8880:8080"
+    links:
+    - mongo
+    - agate
+#   - rserver
+    environment:
+    - OPAL_ADMINISTRATOR_PASSWORD=password
+    - AGATE_PORT_8444_TCP_ADDR=172.16.0.4
+    - AGATE_PORT_8444_TCP_PORT=8444
+    - MONGO_PORT_27017_TCP_ADDR=172.16.0.5
+    - MONGO_PORT_27017_TCP_PORT=27017
+    - RSERVER_HOST=172.16.0.8
+    volumes:
+    - /data/containers/opal_srv:/srv
+    networks:
+      nightlynw:
+        ipv4_address: 172.16.0.3
+#  rserver:
+#    image: obiba/opal-rserver:snapshot
+#    networks:
+#      nightlynw:
+#        ipv4_address: 172.16.0.8
+  agate:
+    image: obiba/agate:snapshot
+    ports:
+    - "8844:8444"
+    - "8881:8081"
+    links:
+    - mongo
+    environment:
+    - AGATE_ADMINISTRATOR_PASSWORD=password
+    - RECAPTCHA_SITE_KEY=6LeSuIgUAAAAABfC1SiVv-M0EtRQQCBabz6vocjm
+    - RECAPTCHA_SECRET_KEY=6LeSuIgUAAAAAIGzOkM1686ajsinDBhFid9LSFUJ
+    - MONGO_PORT_27017_TCP_ADDR=172.16.0.5
+    - MONGO_PORT_27017_TCP_PORT=27017
+    volumes:
+    - /data/containers/agate_srv:/srv
+    networks:
+      nightlynw:
+        ipv4_address: 172.16.0.4
+  mongo:
+    image: mongo:3.4
+    volumes:
+    - /data/containers/mongo_configdb:/data/configdb
+    - /data/containers/mongo_db:/data/db
+    networks:
+      nightlynw:
+        ipv4_address: 172.16.0.5
+  mysql:
+    image: mysql:5.7
+    environment:
+    - MYSQL_DATABASE=drupal_mica
+    - MYSQL_USER=drupal
+    - MYSQL_USER_HOST=172.16.0.1/255.255.255.246
+    - MYSQL_PASSWORD=password
+    - MYSQL_ROOT_PASSWORD=password
+    # This allows ip ranges from 192.168.0.49 to 192.168.0.54 to connect to root
+    - MYSQL_ROOT_HOST=172.16.0.1/255.255.255.246
+    volumes:
+    - /data/containers/mysql_db:/var/lib/mysql
+    restart: always
+    networks:
+      nightlynw:
+        ipv4_address: 172.16.0.6
+#  onyx:
+#    image: obiba/onyx-demo:snapshot
+#    ports:
+#    - "8883:8080"
+#    networks:
+#      nightlynw:
+#        ipv4_address: 172.16.0.7
+volumes:
+  drupal_sites:
+networks:
+  nightlynw:
+    ipam:
+        driver: default
+        config:
+          - subnet: "172.16.0.0/24"
