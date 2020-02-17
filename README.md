@@ -11,10 +11,10 @@ This docker-compose pull Obiba images from :
 * [obiba/onyx-demo](https://hub.docker.com/repository/docker/obiba/onyx-demo)
 
 ## Usage
-Please take a look to the Makefile that define some basic command to manage the Obiba docker containers, enter make -help for more informations 
+Please take a look to the Makefile that define some basic command to manage the Obiba docker containers, enter `make -help` for more informations 
 
 ## Volumes location
-The volumes are stored on these folders :
+The volumes are stored in these folders (or in the case of drupal, managed by docker) :
  
 * Drupal : in the default docker volumes location : /var/lib/docker/volumes/obibadocker_drupal_sites/_data/
 * Mica : /data/containers/mica_srv
@@ -23,8 +23,8 @@ The volumes are stored on these folders :
 * Mongo :  /data/containers/mongo_configdb  and /data/containers/mongo_db
 * mysql : /data/containers/mysql_db
 
-The Onyx and the R-server container haven't volumes you can adjust this as you needs
-The mysql container should exclusively be used by Drupal installation and ave to store only drupal data
+The Onyx and the R-server container don't have volumes but you can adjust this as you need (maybe a similar config as for drupal)
+The mysql container should exclusively be used by Drupal installation and store only drupal data to simplify the backup/restore process
 
 ## Update process
 To update containers code base please follow these steps: 
@@ -48,14 +48,14 @@ helper to update the Obiba Drupal Modules, so inside the Drupal container you ca
 Obiba Drupal modules version : # make update-obiba 
 
 Basic steps: 
-- Update Drupal images :  # make update-drupal
-- Log in Drupal container Shell : # make shell
-- Update the Obiba Drupal Modules # make update-obiba   
+- Update Drupal images :  `make update-drupal`
+- Log in Drupal container Shell : `make shell`
+- Update the Obiba Drupal Modules `make update-obiba`  
 
 ### Troubleshooting
-In case something goes wrong with the update you can restore the backups : # make restore-drupal
+In case something goes wrong with the update you can restore the backups : `make restore-drupal`
 Basically this command restore the backup images + volumes of the drupal containers
-Please feel free to adjust the script for mica, agate Opal, .. etc containers
+Please feel free to adjust the script for mica, agate opal, and other containers
 
    
 
