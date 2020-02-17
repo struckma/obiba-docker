@@ -11,7 +11,7 @@ This docker-compose pull Obiba images from :
 * [obiba/onyx-demo](https://hub.docker.com/repository/docker/obiba/onyx-demo)
 
 ## Usage
-Please take a look to the Makefile that define some basic command to manage the Obiba docker containers, enter `make -help` for more informations 
+Please take a look at the Makefile that defines some basic commands to manage the Obiba docker containers, run `make help` for more information.
 
 ## Volumes location
 The volumes are stored in these folders (or in the case of drupal, managed by docker) :
@@ -23,8 +23,10 @@ The volumes are stored in these folders (or in the case of drupal, managed by do
 * Mongo :  /data/containers/mongo_configdb  and /data/containers/mongo_db
 * mysql : /data/containers/mysql_db
 
-The Onyx and the R-server container don't have volumes but you can adjust this as you need (maybe a similar config as for drupal)
-The mysql container should exclusively be used by Drupal installation and store only drupal data to simplify the backup/restore process
+> Make sure that the user that runs dcoker-compose has the permission to create directories under `/data/containers` else change this path to somewhere convenient.
+
+The Onyx container doesn't have volumes but you can adjust its settings to using a similar configuration as for Drupal.
+The MySQL container should exclusively be used by Drupal installation and store only Drupal data to simplify the backup/restore process.
 
 ## Update process
 To update containers code base please follow these steps: 
@@ -32,35 +34,33 @@ To update containers code base please follow these steps:
 ### Backup
 Backup Drupal containers + images using this command : `make backup-drupal`
 
-This command backup only the Drupal instance : 
+This command backs up only the Drupal instance : 
 - Drupal images + volumes
-- Mysql images + volumes
-Basically we have to backup the code + the data on the containers, the generated .gz files can be used to restore 
-the running apps, or to deploy them in other server for example
-Please feel free to adjust the scripts to backup all containers 
+- MySQL images + volumes
+Basically we have to backup the binary + the data on the containers, the generated .gz files can be used to restore 
+the running apps, or to deploy them in other server.
+Backuping the other containers requires archiving the volumes.
+To backup the image please use Drupal's script as inspiration.
+
+Please backup periodically, especially before updating.
 
 ### Update images
-In a normal update images containers process we don't have to carry about volumes of the containers, we have to pull the
-last images code base version.
+Updating requires that we pull the latest image.
 
 You can perform this command to update core drupal image code : `make update-drupal`
 
-The new image may update the Drupal core Version but also the Used php amd apache as it maintained by [Drupal](https://hub.docker.com/_/drupal)
+The new image may update the Drupal core Version but also the php and apache as it maintained by [Drupal](https://hub.docker.com/_/drupal)
 
 In the [Obiba docker Drupal](https://hub.docker.com/repository/docker/obiba/docker-obiba-drupal) there is some .sh script 
 helper to update the Obiba Drupal Modules, so inside the Drupal container you can execute this command to update to last 
 Obiba Drupal modules version : `make update-obiba`
 
-Basic steps: 
+Basic Drupal steps: 
 - Update Drupal images :  `make update-drupal`
 - Log in Drupal container Shell : `make shell`
-- Update the Obiba Drupal Modules `make update-obiba`  
+- Update the Obiba Drupal Modules `make update-obiba
 
 ### Troubleshooting
 In case something goes wrong with the update you can restore the backups : `make restore-drupal`
-Basically this command restore the backup images + volumes of the drupal containers
-Please feel free to adjust the script for mica, agate opal, and other containers
-
-   
-
-
+Basically this command restore the backup images + volumes of the Drupal containers.
+Please feel free to adjust the script for Mica, Agate, Opal, and other containers.
