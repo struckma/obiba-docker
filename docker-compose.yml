@@ -22,7 +22,7 @@ services:
       nightlynw:
         ipv4_address: 172.16.0.8
   mica:
-    image: obiba/mica:snapshot
+    image: obiba/mica:latest
     ports:
     - "8845:8445"
     - "8882:8082"
@@ -45,7 +45,7 @@ services:
       nightlynw:
         ipv4_address: 172.16.0.2
   opal:
-    image: obiba/opal:snapshot
+    image: obiba/opal:latest
     ports:
     - "8843:8443"
     - "8880:8080"
@@ -66,12 +66,12 @@ services:
       nightlynw:
         ipv4_address: 172.16.0.3
 #  rserver:
-#    image: obiba/opal-rserver:snapshot
+#    image: obiba/opal-rserver:latest
 #    networks:
 #      nightlynw:
 #        ipv4_address: 172.16.0.8
   agate:
-    image: obiba/agate:snapshot
+    image: obiba/agate:latest
     ports:
     - "8844:8444"
     - "8881:8081"
@@ -113,7 +113,7 @@ services:
       nightlynw:
         ipv4_address: 172.16.0.6
 #  onyx:
-#    image: obiba/onyx-demo:snapshot
+#    image: obiba/onyx-demo:latest
 #    ports:
 #    - "8883:8080"
 #    networks:
