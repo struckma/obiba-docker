@@ -58,7 +58,7 @@ Obiba Drupal modules version : `make update-obiba`
 Basic Drupal steps: 
 - Update Drupal images :  `make update-drupal`
 - Log in Drupal container Shell : `make shell`
-- Update the Obiba Drupal Modules `make update-obiba
+- Update the Obiba Drupal Modules `make update-obiba`
 
 ### Troubleshooting
 In case something goes wrong with the update you can restore the backups : `make restore-drupal`
