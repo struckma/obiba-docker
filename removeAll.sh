@@ -2,7 +2,7 @@
 
 
 # stop all container & purge drupal container
-make docker-clear-all
+make down
 
 # remove all images
 docker image prune -a -f

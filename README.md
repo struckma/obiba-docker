@@ -12,11 +12,18 @@ This docker-compose pull Obiba images from :
 
 ## Usage
 Please take a look at the Makefile that defines some basic commands to manage the Obiba docker containers, run `make help` for more information.
+First all  please create the necessary folders by typing: `make init` 
 
 ## Volumes location
 The volumes are stored in these folders (or in the case of drupal, managed by docker) :
  
-* Drupal : in the default docker volumes location : /var/lib/docker/volumes/obibadocker_drupal_sites/_data/
+* Drupal in the default docker volumes location : 
+    * /var/lib/docker/volumes/obibadocker_drupal_sites_default/_data/
+    * /var/lib/docker/volumes/obibadocker_drupal_sites_libraries/_data/
+    * /var/lib/docker/volumes/obibadocker_drupal_sites_modules/_data/
+    * /var/lib/docker/volumes/obibadocker_drupal_sites_themes/_data/
+    * /var/lib/docker/volumes/obibadocker_drupal_sites_themes/_data/
+
 * Mica : /data/containers/mica_srv
 * Opal : /data/containers/opal_srv
 * Agate : /data/containers/agate_srv
@@ -37,9 +44,12 @@ Backup Drupal containers + images using this command : `make backup-drupal`
 This command backs up only the Drupal instance : 
 - Drupal images + volumes
 - MySQL images + volumes
+
 Basically we have to backup the binary + the data on the containers, the generated .gz files can be used to restore 
 the running apps, or to deploy them in other server.
+
 Backuping the other containers requires archiving the volumes.
+
 To backup the image please use Drupal's script as inspiration.
 
 Please backup periodically, especially before updating.
@@ -59,6 +69,19 @@ Basic Drupal steps:
 - Update Drupal images :  `make update-drupal`
 - Log in Drupal container Shell : `make shell`
 - Update the Obiba Drupal Modules `make update-obiba`
+
+### Update Images with an exported images code base
+On a source machine that has access to internet:
+- Fire Up the containers to build a fresh container version: `make up`
+- Export the base code containers : `make export-drupal`, this will generate 'export_folder/drupal_container.tar'
+
+On target machine without internet access:
+- Copy the tar file 'drupal_container.tar' to 'import_folder'
+- Import the code base containers : `make import-drupal`
+- Update the composer autoload : `docker exec -d obibadocker_drupal_1 make obiba-composer-conf`
+- Perform Drupal update script : `docker exec -d obibadocker_drupal_1 drush updatedb`
+
+> Make sure to backup your containers before updating them in this way. 
 
 ### Troubleshooting
 In case something goes wrong with the update you can restore the backups : `make restore-drupal`
