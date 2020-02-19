@@ -41,8 +41,10 @@ init:
 	mkdir -p $(BACKUP_FOLDER) && \
 	mkdir -p $(EXPORT_FOLDER) && \
 	mkdir -p $(IMPORT_FOLDER) && \
-	mkdir -p $(DRUPAL_VOLUMES) && \
-	mkdir -p $(DATA_CONTAINERS)
+	mkdir -p $(DATA_CONTAINERS) && \
+	mkdir -p $(DRUPAL_VOLUMES)/drupal_sites_default && \
+	touch $(DRUPAL_VOLUMES)/drupal_sites_default/default.settings.php && \
+	chmod -R 777 $(DRUPAL_VOLUMES)
 
 up:
 	docker-compose up -d
