@@ -17,11 +17,11 @@ services:
     - AGATE_PORT_8444_TCP_ADDR=172.16.0.4
     - MICA_PORT_8445_TCP_ADDR=172.16.0.2
     volumes:
-    - drupal_sites_modules:/var/www/html/sites/all/modules
-    - drupal_sites_libraries:/var/www/html/sites/all/libraries
-    - drupal_sites_themes:/var/www/html/sites/all/themes
-    - drupal_sites_vendor:/var/www/html/sites/all/vendor
-    - drupal_sites_default:/var/www/html/sites/default
+    - ./volumes/obibadocker_drupal_sites/drupal_sites_modules:/var/www/html/sites/all/modules
+    - ./volumes/obibadocker_drupal_sites/drupal_sites_libraries:/var/www/html/sites/all/libraries
+    - ./volumes/obibadocker_drupal_sites/drupal_sites_themes:/var/www/html/sites/all/themes
+    - ./volumes/obibadocker_drupal_sites/drupal_sites_vendor:/var/www/html/sites/all/vendor
+    - ./volumes/obibadocker_drupal_sites/drupal_sites_default:/var/www/html/sites/default
     networks:
       nightlynw:
         ipv4_address: 172.16.0.8
@@ -31,7 +31,7 @@ services:
     - "8845:8445"
     - "8882:8082"
     volumes:
-    - /data/containers/mica_srv:/srv
+    - ./volumes/data/mica_srv:/srv
     links:
     - mongo
     - opal
@@ -65,7 +65,7 @@ services:
     - MONGO_PORT_27017_TCP_PORT=27017
     - RSERVER_HOST=172.16.0.8
     volumes:
-    - /data/containers/opal_srv:/srv
+    - ./volumes/data/opal_srv:/srv
     networks:
       nightlynw:
         ipv4_address: 172.16.0.3
@@ -88,15 +88,15 @@ services:
     - MONGO_PORT_27017_TCP_ADDR=172.16.0.5
     - MONGO_PORT_27017_TCP_PORT=27017
     volumes:
-    - /data/containers/agate_srv:/srv
+    - ./volumes/data/agate_srv:/srv
     networks:
       nightlynw:
         ipv4_address: 172.16.0.4
   mongo:
     image: mongo:3.4
     volumes:
-    - /data/containers/mongo_configdb:/data/configdb
-    - /data/containers/mongo_db:/data/db
+    - ./volumes/data/mongo_configdb:/data/configdb
+    - ./volumes/data/mongo_db:/data/db
     networks:
       nightlynw:
         ipv4_address: 172.16.0.5
@@ -111,7 +111,7 @@ services:
     # This allows ip ranges from 192.168.0.49 to 192.168.0.54 to connect to root
     - MYSQL_ROOT_HOST=172.16.0.1/255.255.255.246
     volumes:
-    - /data/containers/mysql_db:/var/lib/mysql
+    - ./volumes/data/mysql_db:/var/lib/mysql
     restart: always
     networks:
       nightlynw:
@@ -123,12 +123,6 @@ services:
 #    networks:
 #      nightlynw:
 #        ipv4_address: 172.16.0.7
-volumes:
-  drupal_sites_modules:
-  drupal_sites_libraries:
-  drupal_sites_themes:
-  drupal_sites_vendor:
-  drupal_sites_default:
 networks:
   nightlynw:
     ipam:

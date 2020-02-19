@@ -18,6 +18,8 @@ help:
 	@echo "###########################################################################################################"
 
 BACKUP_FOLDER=$(CURDIR)/backup
+DRUPAL_VOLUMES=$(CURDIR)/volumes/obibadocker_drupal_sites
+DATA_CONTAINERS=$(CURDIR)/volumes/data
 
 # Backup Drupal installation
 backup-drupal: backup-drupal-container backup-mysql-container
@@ -36,9 +38,11 @@ export-drupal: export-drupal-build
 import-drupal: import-drupal-build
 
 init:
-	mkdir $(BACKUP_FOLDER) && \
-	mkdir $(EXPORT_FOLDER) && \
-	mkdir $(IMPORT_FOLDER)
+	mkdir -p $(BACKUP_FOLDER) && \
+	mkdir -p $(EXPORT_FOLDER) && \
+	mkdir -p $(IMPORT_FOLDER) && \
+	mkdir -p $(DRUPAL_VOLUMES) && \
+	mkdir -p $(DATA_CONTAINERS)
 
 up:
 	docker-compose up -d
@@ -57,13 +61,13 @@ shell:
 
 backup-mysql-container:
 	docker export yorkdocker_mysql_1 | gzip > $(BACKUP_FOLDER)/mysql.gz && \
-	cd /data/containers/mysql_db/ && \
+	cd $(DATA_CONTAINERS)/mysql_db/ && \
 	tar -cvf $(BACKUP_FOLDER)/mysql_volume.gz *
 
 restore-mysql-container:
 	zcat $(BACKUP_FOLDER)/mysql.gz | docker import - yorkdocker_mysql_1 && \
-	cp $(BACKUP_FOLDER)/mysql_volume.gz /data/containers/mysql_db/ && \
-	cd /data/containers/mysql_db/ && \
+	cp $(BACKUP_FOLDER)/mysql_volume.gz $(DATA_CONTAINERS)/mysql_db/ && \
+	cd $(DATA_CONTAINERS)/mysql_db/ && \
 	tar -xvf mysql_volume.gz
 
 

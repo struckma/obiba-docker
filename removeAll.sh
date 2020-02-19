@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo "Please enable me first"
+exit 1
 
 # stop all container & purge drupal container
 make down
@@ -8,4 +10,4 @@ make down
 docker image prune -a -f
 
 # delete volumes folders
-rm -rfv /data/containers
+rm -rfv ./volumes/data

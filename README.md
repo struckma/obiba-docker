@@ -18,11 +18,11 @@ First all  please create the necessary folders by typing: `make init`
 The volumes are stored in these folders (or in the case of drupal, managed by docker) :
  
 * Drupal in the default docker volumes location : 
-    * /var/lib/docker/volumes/obibadocker_drupal_sites_default/_data/
-    * /var/lib/docker/volumes/obibadocker_drupal_sites_libraries/_data/
-    * /var/lib/docker/volumes/obibadocker_drupal_sites_modules/_data/
-    * /var/lib/docker/volumes/obibadocker_drupal_sites_themes/_data/
-    * /var/lib/docker/volumes/obibadocker_drupal_sites_themes/_data/
+    * ./volumes/obibadocker_drupal_sites_default/_data/
+    * ./volumes/obibadocker_drupal_sites_libraries/_data/
+    * ./volumes/obibadocker_drupal_sites_modules/_data/
+    * ./volumes/obibadocker_drupal_sites_themes/_data/
+    * ./volumes/obibadocker_drupal_sites_themes/_data/
 
 * Mica : /data/containers/mica_srv
 * Opal : /data/containers/opal_srv

@@ -2,8 +2,7 @@
 
 EXPORT_FOLDER=$(CURDIR)/export_folder
 IMPORT_FOLDER=$(CURDIR)/import_folder
-DOCKER_DRUPAL= obibadocker_drupal_1
-DRUPAL_VOLUMES=/var/lib/docker/volumes/obibadocker_drupal_sites
+DOCKER_DRUPAL=obibadocker_drupal_1
 
 export-drupal-build: export-drupal-docker export-drupal-libraries export-drupal-modules export-drupal-themes export-drupal-vendor build-package
 
