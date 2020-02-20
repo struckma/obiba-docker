@@ -2,26 +2,26 @@
 
 EXPORT_FOLDER=$(CURDIR)/export_folder
 IMPORT_FOLDER=$(CURDIR)/import_folder
-DOCKER_DRUPAL=obibadocker_drupal_1
+DOCKER_DRUPAL=obiba-docker_drupal_1
 
 export-drupal-build: export-drupal-docker export-drupal-libraries export-drupal-modules export-drupal-themes export-drupal-vendor build-package
 
-import-drupal-build: extract-pakage import-drupal-docker import-drupal-libraries import-drupal-modules import-drupal-themes import-drupal-vendor update-composer
+import-drupal-build: extract-package import-drupal-docker import-drupal-libraries import-drupal-modules import-drupal-themes import-drupal-vendor update-composer
 
 export-drupal-docker:
 	docker export $(DOCKER_DRUPAL) | gzip > $(EXPORT_FOLDER)/drupal_images.gz
 
 export-drupal-libraries:
-	cd $(DRUPAL_VOLUMES)_libraries/ && tar -cvf drupal_libraries.tar * && mv drupal_libraries.tar $(EXPORT_FOLDER)/
+	cd $(DRUPAL_VOLUMES)/drupal_sites_libraries/ && tar -cvf drupal_libraries.tar * && mv drupal_libraries.tar $(EXPORT_FOLDER)/
 
 export-drupal-modules:
-	cd $(DRUPAL_VOLUMES)_modules/ && tar -cvf drupal_modules.tar * && mv drupal_modules.tar $(EXPORT_FOLDER)/
+	cd $(DRUPAL_VOLUMES)/drupal_sites_modules/ && tar -cvf drupal_modules.tar * && mv drupal_modules.tar $(EXPORT_FOLDER)/
 
 export-drupal-themes:
-	cd $(DRUPAL_VOLUMES)_themes/ && tar -cvf drupal_themes.tar * && mv drupal_themes.tar $(EXPORT_FOLDER)/
+	cd $(DRUPAL_VOLUMES)/drupal_sites_themes/ && tar -cvf drupal_themes.tar * && mv drupal_themes.tar $(EXPORT_FOLDER)/
 
 export-drupal-vendor:
-	cd $(DRUPAL_VOLUMES)_vendor/ && tar -cvf drupal_vendor.tar * && mv drupal_vendor.tar $(EXPORT_FOLDER)/
+	cd $(DRUPAL_VOLUMES)/drupal_sites_vendor/ && tar -cvf drupal_vendor.tar * && mv drupal_vendor.tar $(EXPORT_FOLDER)/
 
 build-package:
 	cd $(EXPORT_FOLDER)/ && tar -cvf drupal_container.tar * && \
@@ -31,7 +31,7 @@ build-package:
 	rm -rf drupal_vendor.tar && \
 	rm -rf drupal_images.gz
 
-extract-pakage:
+extract-package:
 	cd $(IMPORT_FOLDER)/ && \
 	tar -xvf drupal_container.tar
 
