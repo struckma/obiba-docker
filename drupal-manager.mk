@@ -33,29 +33,34 @@ backup-drupal-vendor:
 	tar -cvf $(BACKUP_FOLDER)/drupal_vendor.tar *
 
 restore-drupal-docker:
-	zcat $(BACKUP_FOLDER)/drupal.gz | docker import - obiba-docker_drupal_1
+	gzip -dc $(BACKUP_FOLDER)/drupal_images.gz | docker import - obiba-docker_drupal_1
 
 restore-drupal-default:
-	cp $(BACKUP_FOLDER)/drupal_default.tar $(DRUPAL_VOLUMES)/drupal_sites_default/ && \
+	mkdir -p $(DRUPAL_VOLUMES)/drupal_sites_default/ && \
+    cp $(BACKUP_FOLDER)/drupal_default.tar $(DRUPAL_VOLUMES)/drupal_sites_default/ && \
     cd $(DRUPAL_VOLUMES)/drupal_sites_default/ && \
     tar -xvf drupal_default.tar
 
 restore-drupal-libraries:
-	cp $(BACKUP_FOLDER)/drupal_libraries.tar $(DRUPAL_VOLUMES)/drupal_sites_libraries/ && \
+	mkdir -p $(DRUPAL_VOLUMES)/drupal_sites_libraries/ && \
+    cp $(BACKUP_FOLDER)/drupal_libraries.tar $(DRUPAL_VOLUMES)/drupal_sites_libraries/ && \
     cd $(DRUPAL_VOLUMES)/drupal_sites_libraries/ && \
     tar -xvf drupal_libraries.tar
 
 restore-drupal-modules:
-	cp $(BACKUP_FOLDER)/drupal_modules.tar $(DRUPAL_VOLUMES)/drupal_sites_modules/ && \
+	mkdir -p $(DRUPAL_VOLUMES)/drupal_sites_modules/ && \
+    cp $(BACKUP_FOLDER)/drupal_modules.tar $(DRUPAL_VOLUMES)/drupal_sites_modules/ && \
     cd $(DRUPAL_VOLUMES)/drupal_sites_modules/ && \
     tar -xvf drupal_modules.tar
 
 restore-drupal-themes:
-	cp $(BACKUP_FOLDER)/drupal_themes.tar $(DRUPAL_VOLUMES)/drupal_sites_themes/ && \
+	mkdir -p $(DRUPAL_VOLUMES)/drupal_sites_themes/ && \
+    cp $(BACKUP_FOLDER)/drupal_themes.tar $(DRUPAL_VOLUMES)/drupal_sites_themes/ && \
     cd $(DRUPAL_VOLUMES)/drupal_sites_themes/ && \
     tar -xvf drupal_themes.tar
 
 restore-drupal-vendor:
-	cp $(BACKUP_FOLDER)/drupal_vendor.tar $(DRUPAL_VOLUMES)/drupal_sites_vendor/ && \
+	mkdir -p $(DRUPAL_VOLUMES)/drupal_sites_vendor/ && \
+    cp $(BACKUP_FOLDER)/drupal_vendor.tar $(DRUPAL_VOLUMES)/drupal_sites_vendor/ && \
     cd $(DRUPAL_VOLUMES)/drupal_sites_vendor/ && \
     tar -xvf drupal_vendor.tar

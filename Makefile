@@ -67,7 +67,8 @@ backup-mysql-container:
 	tar -cvf $(BACKUP_FOLDER)/mysql_volume.gz *
 
 restore-mysql-container:
-	zcat $(BACKUP_FOLDER)/mysql.gz | docker import - yorkdocker_mysql_1 && \
+	gzip -dc $(BACKUP_FOLDER)/mysql.gz | docker import - yorkdocker_mysql_1 && \
+	mkdir -p $(DATA_CONTAINERS)/mysql_db/ && \
 	cp $(BACKUP_FOLDER)/mysql_volume.gz $(DATA_CONTAINERS)/mysql_db/ && \
 	cd $(DATA_CONTAINERS)/mysql_db/ && \
 	tar -xvf mysql_volume.gz
