@@ -18,17 +18,17 @@ First all  please create the necessary folders by typing: `make init`
 The volumes are stored in these folders (or in the case of drupal, managed by docker) :
  
 * Drupal in the default docker volumes location : 
-    * ./volumes/obibadocker_drupal_sites_default/_data/
-    * ./volumes/obibadocker_drupal_sites_libraries/_data/
-    * ./volumes/obibadocker_drupal_sites_modules/_data/
-    * ./volumes/obibadocker_drupal_sites_themes/_data/
-    * ./volumes/obibadocker_drupal_sites_themes/_data/
+    * ./volumes/obibadocker_drupal_sites/obibadocker_drupal_sites_default/
+    * ./volumes/obibadocker_drupal_sites/obibadocker_drupal_sites_libraries/
+    * ./volumes/obibadocker_drupal_sites/obibadocker_drupal_sites_modules/
+    * ./volumes/obibadocker_drupal_sites/obibadocker_drupal_sites_themes/
+    * ./volumes/obibadocker_drupal_sites/obibadocker_drupal_sites_themes/
 
-* Mica : /data/containers/mica_srv
-* Opal : /data/containers/opal_srv
-* Agate : /data/containers/agate_srv
-* Mongo :  /data/containers/mongo_configdb  and /data/containers/mongo_db
-* mysql : /data/containers/mysql_db
+* Mica : ./volumes/data/containers/mica_srv
+* Opal : ./volumes/data/containers/opal_srv
+* Agate : ./volumes/data/containers/agate_srv
+* Mongo :  ./volumes/data/containers/mongo_configdb  and /data/containers/mongo_db
+* mysql : ./volumes/data/containers/mysql_db
 
 > Make sure that the user that runs dcoker-compose has the permission to create directories under `/data/containers` else change this path to somewhere convenient.
 
