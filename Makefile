@@ -44,7 +44,7 @@ init:
 	mkdir -p $(DATA_CONTAINERS) && \
 	mkdir -p $(DRUPAL_VOLUMES)/drupal_sites_default && \
 	touch $(DRUPAL_VOLUMES)/drupal_sites_default/default.settings.php && \
-	chmod -R 777 $(DRUPAL_VOLUMES)
+	chmod -R 700 volumes/ backup/ export_folder/ import_folder/
 
 up:
 	docker-compose up -d
@@ -62,12 +62,12 @@ shell:
 	docker-compose exec drupal bash
 
 backup-mysql-container:
-	docker export yorkdocker_mysql_1 | gzip > $(BACKUP_FOLDER)/mysql.gz && \
+	docker export obiba-docker_mysql_1 | gzip > $(BACKUP_FOLDER)/mysql.gz && \
 	cd $(DATA_CONTAINERS)/mysql_db/ && \
 	tar -cvf $(BACKUP_FOLDER)/mysql_volume.gz *
 
 restore-mysql-container:
-	gzip -dc $(BACKUP_FOLDER)/mysql.gz | docker import - yorkdocker_mysql_1 && \
+	gzip -dc $(BACKUP_FOLDER)/mysql.gz | docker import - obiba-docker_mysql_1 && \
 	mkdir -p $(DATA_CONTAINERS)/mysql_db/ && \
 	cp $(BACKUP_FOLDER)/mysql_volume.gz $(DATA_CONTAINERS)/mysql_db/ && \
 	cd $(DATA_CONTAINERS)/mysql_db/ && \
