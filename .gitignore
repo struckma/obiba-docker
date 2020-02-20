@@ -1,1 +1,4 @@
 volumes/
+backup/
+import_folder/
+export_folder/
