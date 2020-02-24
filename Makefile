@@ -1,7 +1,7 @@
 #!/bin/bash
 
-RED=\033[0;31m
-NC=\033[0m
+RED=\e[0;31m
+NC=\e[0m
 
 help:
 	@echo "###########################################################################################################"
@@ -48,6 +48,7 @@ init:
 
 up:
 	docker-compose up -d
+	@echo "$(RED)wait$(NC), until the docker container is set up, see the logs for details"
 
 stop:
 	docker-compose stop
